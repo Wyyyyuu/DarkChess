@@ -42,6 +42,10 @@ public class LoadGame extends JComponent {
             BufferedReader br = new BufferedReader(new FileReader(path));
             String chess = br.readLine();
 
+            //文件格式是否为txt
+            if (!contentType.equals("txt")){
+                throw new Exception1("Error code: 101");
+            }
             //将读取的数据填入数组
             while (chess != null && row < 8) {
                 String[] temp = chess.split(" ");
@@ -259,10 +263,6 @@ public class LoadGame extends JComponent {
                 ChessGameFrame.getStatusLabel().setText("黑方回合");
             }
 
-            //文件格式不是txt
-            if (!contentType.equals("txt")){
-                throw new Exception1("Error code: 101");
-            }
 
             //棋子并非红黑7种棋子或空棋子之一
             if (!chessType){
