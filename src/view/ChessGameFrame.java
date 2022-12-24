@@ -5,6 +5,7 @@ import controller.LoadGame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -49,13 +50,14 @@ public class ChessGameFrame extends JFrame {
 
         addChessboard();
         addLabel();
-        addHelloButton();
+        addSaveButton();
         addLoadButton();
         addCheatingModeButton();
         addAIModeButton();
         addUndoButton();
         addNewGameButton();
         addMusicButton();
+        addPlayBackButton();
     }
 
 
@@ -81,22 +83,28 @@ public class ChessGameFrame extends JFrame {
      */
     private void addLabel() {
         statusLabel = new JLabel("黑方回合");
-        statusLabel.setLocation(WIDTH * 3 / 5, HEIGHT / 10);
-        statusLabel.setSize(200, 60);
+        statusLabel.setLocation(WIDTH * 3 / 5, HEIGHT / 10 - 40);
+        statusLabel.setSize(170,80);
+        statusLabel.setOpaque(true);
         statusLabel.setForeground(Color.WHITE);
-        statusLabel.setFont(new Font("黑体", Font.BOLD, 20));
+        statusLabel.setBackground(Color.ORANGE);
+        statusLabel.setFont(new Font("黑体", Font.BOLD, 40));
         add(statusLabel);
 
         //显示剩余血量
         redBlood = new JLabel("红方血量： ");
         redBlood.setLocation(WIDTH / 10 + 60,HEIGHT / 10 - 50);
-        redBlood.setSize(100,60);
+        redBlood.setSize(120,40);
+        redBlood.setOpaque(true);
+        redBlood.setBackground(Color.white);
         redBlood.setFont(new Font("黑体",Font.BOLD,15));
         add(redBlood);
 
         blackBlood = new JLabel("黑方血量： ");
         blackBlood.setLocation(WIDTH / 10 + 230,HEIGHT / 10 - 50);
-        blackBlood.setSize(100,60);
+        blackBlood.setSize(120,40);
+        blackBlood.setOpaque(true);
+        blackBlood.setBackground(Color.white);
         blackBlood.setFont(new Font("黑体",Font.BOLD,15));
         add(blackBlood);
 
@@ -116,13 +124,22 @@ public class ChessGameFrame extends JFrame {
      * 在游戏窗体中增加一个按钮，如果按下的话就会显示Hello, world!
      */
 
-    private void addHelloButton() {
-        JButton button = new JButton("Show Hello Here");
-        button.addActionListener((e) -> JOptionPane.showMessageDialog(this, "Hello, world!"));
+    private void addSaveButton() {
+        JButton button = new JButton("存档");
         button.setLocation(WIDTH * 3 / 5 - 50, HEIGHT / 10 + 120);
         button.setSize(180, 60);
-        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        button.setFont(new Font("仿宋", Font.BOLD, 20));
         add(button);
+
+        button.addActionListener(e -> {
+            try {
+                gameController.saveGame();
+                JOptionPane.showMessageDialog(ChessGameFrame.mainF,"存档成功");
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+
+        });
     }
 
 
@@ -207,5 +224,14 @@ public class ChessGameFrame extends JFrame {
             }
 
         });
+    }
+
+    private void addPlayBackButton(){
+        JButton button = new JButton("步骤回放");
+        button.setLocation(WIDTH * 3 / 5 + 150, HEIGHT / 10 + 480);
+        button.setSize(180, 60);
+        button.setFont(new Font("仿宋", Font.BOLD, 20));
+        add(button);
+
     }
 }

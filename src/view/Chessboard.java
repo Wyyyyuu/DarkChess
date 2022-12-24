@@ -17,8 +17,8 @@ import java.util.Random;
 public class Chessboard extends JComponent {
 
 
-    private static final int ROW_SIZE = 8;
-    private static final int COL_SIZE = 4;
+    public static final int ROW_SIZE = 8;
+    public static final int COL_SIZE = 4;
     private int WIDTH;
     private int HEIGHT;
     public static Chessboard chessboard;

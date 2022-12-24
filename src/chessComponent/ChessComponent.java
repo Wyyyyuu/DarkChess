@@ -14,8 +14,8 @@ public class ChessComponent extends SquareComponent {
     protected String name;// 棋子名字：例如 兵，卒，士等
     protected int blood;//棋子价值
     public static ChessComponent chessComponent;
-    public  Player RedPlayer;
-    public  Player BlackPlayer;
+    public Player RedPlayer;
+    public Player BlackPlayer;
 
     public ChessComponent(){
     };
@@ -23,6 +23,11 @@ public class ChessComponent extends SquareComponent {
     protected ChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size) {
         super(chessboardPoint, location, chessColor, clickController, size);
         chessComponent = this;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override
