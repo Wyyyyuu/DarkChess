@@ -27,10 +27,13 @@ import static view.Chessboard.COL_SIZE;
 public class GameController {
     private Chessboard chessboard;
     private ChessComponent chessComponent;
-    private Graphics g;
-    ChessComponent[][] ArrayChessComponent = new ChessComponent[ROW_SIZE][COL_SIZE];
+    public static GameController gameController;
+    private String saveName;//存档名
+    SquareComponent[][] ArrayChessComponent = new SquareComponent[ROW_SIZE][COL_SIZE];
     public GameController(Chessboard chessboard) {
         this.chessboard = chessboard;
+        this.ArrayChessComponent = chessboard.getChessComponents();
+        gameController = this;
     }
 
 
@@ -56,10 +59,16 @@ public class GameController {
          * 1RT代表红方将且翻转，1BF代表黑方将且不翻转，依此类推
          */
 
-        BufferedWriter bfw = new BufferedWriter(new FileWriter("save/save.txt"));
+        BufferedWriter bfw = new BufferedWriter(new FileWriter(String.format("save/%s.txt",saveName)));
 
             for (int i = 0; i < ROW_SIZE; i++) {
                 for (int j = 0; j < COL_SIZE; j++) {
+                    //空棋子
+                    if (ArrayChessComponent[i][j] instanceof EmptySlotComponent){
+                        bfw.write("0 ");
+                        break;
+                    }
+
                     if (ArrayChessComponent[i][j].getName().equals("帥")) {
                         if (ArrayChessComponent[i][j].isReversal()) {
                             bfw.write("1RT ");
@@ -157,10 +166,6 @@ public class GameController {
                             bfw.write("7BF ");
                         }
                     }
-                    //空棋子
-                    else {
-                        bfw.write("0 ");
-                    }
                 }
                 bfw.newLine();//换行
             }
@@ -170,8 +175,18 @@ public class GameController {
             }else {
                 bfw.write("Black");
             }
+            bfw.flush();
             bfw.close();
     }
 
+
+
+
+    public void setSaveName(String s){
+        this.saveName = s;
+    }
+    public String getSaveName(){
+        return saveName;
+    }
 }
 

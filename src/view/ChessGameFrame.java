@@ -132,13 +132,10 @@ public class ChessGameFrame extends JFrame {
         add(button);
 
         button.addActionListener(e -> {
-            try {
-                gameController.saveGame();
-                JOptionPane.showMessageDialog(ChessGameFrame.mainF,"存档成功");
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-
+                //设置存档名的frame
+                SaveFrame setSaveName = new SaveFrame("设置存档名");
+                setSaveName.setSize(400,250);
+                setSaveName.setVisible(true);
         });
     }
 
