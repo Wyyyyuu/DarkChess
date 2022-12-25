@@ -26,7 +26,7 @@ public class ClickController {
                 first = squareComponent;
                 first.repaint();
             }
-        } else {
+        } else {//已翻开
             if (first == squareComponent) { // 再次点击取消选取
                 squareComponent.setSelected(false);
                 SquareComponent recordFirst = first;
@@ -34,14 +34,14 @@ public class ClickController {
                 recordFirst.repaint();
             } else if (handleSecond(squareComponent)) {
                 //repaint in swap chess method.
-                chessboard.swapChessComponents(first, squareComponent);
-                storeSecond(squareComponent);
-                chessboard.clickController.swapPlayer();
-
-                first.setSelected(false);
-                first = null;
+                if(chessboard.swapChessComponents(first, squareComponent)) {
+                    chessboard.clickController.swapPlayer();
+                    first.setSelected(false);
+                    first = null;
+                }
             }
         }
+        chessboard.winInterface();
     }
 
 

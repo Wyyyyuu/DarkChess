@@ -9,6 +9,7 @@ import controller.ClickController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -23,6 +24,12 @@ public class Chessboard extends JComponent {
     public static final int COL_SIZE = 4;
     private int WIDTH;
     private int HEIGHT;
+    public int redPlayerBlood = 60;
+
+    public int blackPlayerBlood = 60;
+
+    public ArrayList<Integer> redCost = new ArrayList<>();
+    public ArrayList<Integer> blackCost = new ArrayList<>();
     public static Chessboard chessboard;
     private final SquareComponent[][] squareComponents = new SquareComponent[ROW_SIZE][COL_SIZE];
     //todo: you can change the initial player
@@ -81,21 +88,99 @@ public class Chessboard extends JComponent {
      * @param chess1
      * @param chess2
      */
-    public void swapChessComponents(SquareComponent chess1, SquareComponent chess2) {
-        // Note that chess1 has higher priority, 'destroys' chess2 if exists.
-        if (!(chess2 instanceof EmptySlotComponent)) {
+    public boolean swapChessComponents(SquareComponent chess1, SquareComponent chess2) {
+        if (!(chess2 instanceof EmptySlotComponent)) {//能级大 或者 兵吃将
+            //1.炮部分
+            if(chess1 instanceof CannonChessComponent){
+                chess1.setPower(chess2.getPower());
+                if(((CannonChessComponent) chess1).CannonMove(squareComponents,chess1.getChessboardPoint(),chess2.getChessboardPoint())){
+                    //减去血量
+                    if (currentColor == ChessColor.RED) {
+                        redPlayerBlood = redPlayerBlood - chess2.getBlood();
+                        System.out.println("The red remain blood of " + redPlayerBlood);
+                    } else {
+                        blackPlayerBlood = blackPlayerBlood-chess2.getBlood();
+                        System.out.println("The black remain blood of " + blackPlayerBlood);
+                    }
+                    int row1 = chess1.getChessboardPoint().getX(), col1 = chess1.getChessboardPoint().getY();
+                    int row2 = chess2.getChessboardPoint().getX(), col2 = chess2.getChessboardPoint().getY();
+                    remove(chess2);
+                    add(chess2 = new EmptySlotComponent(chess2.getChessboardPoint(), chess2.getLocation(), clickController, CHESS_SIZE));
+                    chess1.swapLocation(chess2);
+                    squareComponents[row1][col1] = chess1;
+                    squareComponents[row2][col2] = chess2;
+
+                    return true;
+                }
+            }
+            //2.比较级部分
+            else{
+                if(chess1.getPower() >= chess2.getPower() || chess1 instanceof SoldierChessComponent && chess2 instanceof GeneralChessComponent){
+                    int row1 = chess1.getChessboardPoint().getX(), col1 = chess1.getChessboardPoint().getY();
+                    int row2 = chess2.getChessboardPoint().getX(), col2 = chess2.getChessboardPoint().getY();
+                    if(Math.abs(row2 - row1) + Math.abs(col2 - col1) == 1) {
+                        //减去血量
+                        if (currentColor== ChessColor.RED) {
+                            redPlayerBlood = redPlayerBlood - chess2.getBlood();
+                            System.out.println("The black remain blood of " + redPlayerBlood);
+                        } else {
+                            redCost.add(chess2.getBlood());
+                            blackPlayerBlood = blackPlayerBlood-chess2.getBlood();
+                            System.out.println("The red remain blood of " + blackPlayerBlood);
+                        }
+                        remove(chess2);
+                        add(chess2 = new EmptySlotComponent(chess2.getChessboardPoint(), chess2.getLocation(), clickController, CHESS_SIZE));
+                        chess1.swapLocation(chess2);
+                        squareComponents[row1][col1] = chess1;
+                        squareComponents[row2][col2] = chess2;
+                        return true;
+                    }
+                }}
+        }
+        else{
             remove(chess2);
             add(chess2 = new EmptySlotComponent(chess2.getChessboardPoint(), chess2.getLocation(), clickController, CHESS_SIZE));
+            chess1.swapLocation(chess2);
+            int row1 = chess1.getChessboardPoint().getX(), col1 = chess1.getChessboardPoint().getY();
+            int row2 = chess2.getChessboardPoint().getX(), col2 = chess2.getChessboardPoint().getY();
+            if(Math.abs(row2 - row1) + Math.abs(col2 - col1) == 1){
+                squareComponents[row1][col1] = chess1;
+                squareComponents[row2][col2] = chess2;
+                return true;
+            }
+            else {return  false;}
         }
-        chess1.swapLocation(chess2);
-        int row1 = chess1.getChessboardPoint().getX(), col1 = chess1.getChessboardPoint().getY();
-        squareComponents[row1][col1] = chess1;
-        int row2 = chess2.getChessboardPoint().getX(), col2 = chess2.getChessboardPoint().getY();
-        squareComponents[row2][col2] = chess2;
-
         //只重新绘制chess1 chess2，其他不变
         chess1.repaint();
         chess2.repaint();
+        return false;
+    }
+
+    //制作胜利界面
+    public void winInterface(){
+        JFrame jf = new JFrame();
+        jf.setTitle("胜利界面");
+
+        if(blackPlayerBlood <= 0){
+            Container container = jf.getContentPane();
+            JLabel jl = new JLabel("Black win!");
+            jl.setHorizontalAlignment(SwingConstants.CENTER);
+            container.add(jl);
+            jf.setSize(300,150);
+            jf.setLocation(420,240);
+            jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            jf.setVisible(true);
+        }
+        else if(redPlayerBlood<= 0){
+            Container container = jf.getContentPane();
+            JLabel jl = new JLabel("Red win!");
+            jl.setHorizontalAlignment(SwingConstants.CENTER);
+            container.add(jl);
+            jf.setSize(300,150);
+            jf.setLocation(420,240);
+            jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            jf.setVisible(true);
+        }
     }
 
 
@@ -250,5 +335,25 @@ public class Chessboard extends JComponent {
      */
     public void loadGame(List<String> chessData) {
         chessData.forEach(System.out::println);
+    }
+
+    public void cheatingPart(int faceDown){
+        if(faceDown > 0 && faceDown <= 32){
+            int count = 0;//翻开几个计数
+            for (int i = 0; i < squareComponents.length; i++) {
+                for (int j = 0; j < squareComponents[i].length; j++) {
+                    SquareComponent squareComponent = squareComponents[i][j];//需要通过位置返回棋子
+                    squareComponent.setReversal(true);
+                    count++;
+                    if(count == faceDown){
+                        break;
+                    }
+                }
+                if(count == faceDown){
+                    break;
+                }
+            }
+        }
+
     }
 }

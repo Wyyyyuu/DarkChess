@@ -9,6 +9,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static view.Chessboard.chessboard;
+
 /**
  * 这个类表示游戏窗体，窗体上包含：
  * 1 Chessboard: 棋盘
@@ -149,7 +151,7 @@ public class ChessGameFrame extends JFrame {
         button.addActionListener(e -> {
             System.out.println("输入文件路径：");
             String path = JOptionPane.showInputDialog(this, "Input Path here");
-            LoadGame loadGame = new LoadGame(gameController,Chessboard.chessboard);
+            LoadGame loadGame = new LoadGame(gameController, chessboard);
             loadGame.loadGameFromFile(path);
         });
 
@@ -163,6 +165,15 @@ public class ChessGameFrame extends JFrame {
         button.setSize(180, 60);
         button.setFont(new Font("仿宋", Font.BOLD, 20));
         add(button);
+        button.addActionListener(e -> {
+                    System.out.println("Click load");
+                    String n = JOptionPane.showInputDialog(this, "How many face down:");
+                    int faceDown = Integer.parseInt(n);
+                    chessboard.cheatingPart(faceDown);
+
+                    repaint();
+                }
+        );
 
     }
 

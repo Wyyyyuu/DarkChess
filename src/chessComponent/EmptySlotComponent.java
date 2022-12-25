@@ -22,4 +22,6 @@ public class EmptySlotComponent extends SquareComponent {
     }//空棋子不走
 
 
+
+
 }

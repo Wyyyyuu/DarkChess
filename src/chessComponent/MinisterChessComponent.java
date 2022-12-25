@@ -23,6 +23,15 @@ public class MinisterChessComponent extends ChessComponent{
     public void setPower(int power) {
         super.setPower(power);
     }
+
+    public int getBlood(){
+        return super.getBlood();
+    }
+
+    @Override
+    public void setBlood(int blood) {
+        super.setBlood(blood);
+    }
     public MinisterChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size) {
         super(chessboardPoint, location, chessColor, clickController, size);
         if (this.getChessColor() ==   ChessColor.RED) {
