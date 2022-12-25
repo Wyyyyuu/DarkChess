@@ -10,9 +10,12 @@ import view.Chessboard;
 public class ClickController {
     private final Chessboard chessboard;
     private SquareComponent first;
+    public static ClickController clickController;
+    private int round = 0;
 
     public ClickController(Chessboard chessboard) {
         this.chessboard = chessboard;
+        clickController = this;
     }
 
     public void onClick(SquareComponent squareComponent) {
@@ -32,6 +35,7 @@ public class ClickController {
             } else if (handleSecond(squareComponent)) {
                 //repaint in swap chess method.
                 chessboard.swapChessComponents(first, squareComponent);
+                storeSecond(squareComponent);
                 chessboard.clickController.swapPlayer();
 
                 first.setSelected(false);
@@ -50,8 +54,11 @@ public class ClickController {
         if (!squareComponent.isReversal()) {
             squareComponent.setReversal(true);
             System.out.printf("onClick to reverse a chess [%d,%d]\n", squareComponent.getChessboardPoint().getX(), squareComponent.getChessboardPoint().getY());
+            round++;
+            GameController.gameController.storeGame(round);
             squareComponent.repaint();
             chessboard.clickController.swapPlayer();
+
             return false;
         }
         return squareComponent.getChessColor() == chessboard.getCurrentColor();
@@ -71,14 +78,24 @@ public class ClickController {
                 return false;
             }
         }
-        //round++;
 
         return squareComponent.getChessColor() != chessboard.getCurrentColor() &&
                 first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint());
     }
 
+    public void storeSecond(SquareComponent squareComponent){
+        round++;
+        GameController.gameController.storeGame(round);
+    }
+
     public void swapPlayer() {
         chessboard.setCurrentColor(chessboard.getCurrentColor() == ChessColor.BLACK ? ChessColor.RED : ChessColor.BLACK);
         ChessGameFrame.getStatusLabel().setText(String.format("%s回合", chessboard.getCurrentColor().getName()));
+    }
+    public int getRound(){
+        return round;
+    }
+    public void setRound(int round){
+        this.round = round;
     }
 }

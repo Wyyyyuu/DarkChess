@@ -6,6 +6,8 @@ import model.ChessColor;
 import model.ChessboardPoint;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * 表示棋盘上非空棋子的格子，是所有非空棋子的父类
@@ -23,6 +25,24 @@ public class ChessComponent extends SquareComponent {
     protected ChessComponent(ChessboardPoint chessboardPoint, Point location, ChessColor chessColor, ClickController clickController, int size) {
         super(chessboardPoint, location, chessColor, clickController, size);
         chessComponent = this;
+        //鼠标划过棋子时变色
+        addMouseListener(new MouseAdapter()
+        {
+            //鼠标进入按钮区域
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                ChessComponent.chessComponent.setBackground(Color.cyan);
+                ChessComponent.chessComponent.repaint();
+            }
+            //鼠标移除按钮区域
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                ChessComponent.chessComponent.setBackground(Color.ORANGE);
+                ChessComponent.chessComponent.repaint();
+            }
+        });
     }
 
     @Override

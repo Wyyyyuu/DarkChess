@@ -6,6 +6,7 @@ import model.ChessboardPoint;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import static java.awt.Font.BOLD;
@@ -61,6 +62,7 @@ public abstract class SquareComponent extends JComponent {
         this.clickController = clickController;
         this.isReversal = false;
         squareComponent = this;
+
     }
 
     public SquareComponent() {
@@ -159,6 +161,11 @@ public abstract class SquareComponent extends JComponent {
         SquareComponent ZeroChess = chessboard[destination.getX()][destination.getY()];
         return ZeroChess.isReversal|| ZeroChess instanceof EmptySlotComponent;//被翻开或者没有棋子(instanceof:值为
         //todo: complete this method
+    }
+
+    //鼠标划过棋子时，棋子变色
+    public void EnterMouseEvent(){
+
     }
 
     @Override

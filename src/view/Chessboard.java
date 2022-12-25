@@ -2,6 +2,8 @@ package view;
 
 
 import chessComponent.*;
+import controller.GameController;
+import controller.LoadGame;
 import model.*;
 import controller.ClickController;
 
@@ -214,13 +216,10 @@ public class Chessboard extends JComponent {
                         }
                     }
                 }
-//                if (random.nextInt(2) == 0) {
-//                    squareComponent = new ChariotChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
-//                } else {
-//                    squareComponent = new SoldierChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), color, clickController, CHESS_SIZE);
-//                }
             }
         }
+        GameController gameController = new GameController(this);
+        gameController.storeGame(0);
 
     }
 

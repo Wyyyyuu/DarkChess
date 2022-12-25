@@ -1,5 +1,6 @@
 package view;
 
+import controller.ClickController;
 import controller.GameController;
 import controller.LoadGame;
 
@@ -120,9 +121,6 @@ public class ChessGameFrame extends JFrame {
         return blackBlood;
     }
 
-    /**
-     * 在游戏窗体中增加一个按钮，如果按下的话就会显示Hello, world!
-     */
 
     private void addSaveButton() {
         JButton button = new JButton("存档");
@@ -197,6 +195,9 @@ public class ChessGameFrame extends JFrame {
         button.setFont(new Font("仿宋", Font.BOLD, 20));
         add(button);
 
+        button.addActionListener(e -> {
+            gameController.Undo();
+        });
     }
 
     private void addMusicButton(){
@@ -230,5 +231,18 @@ public class ChessGameFrame extends JFrame {
         button.setFont(new Font("仿宋", Font.BOLD, 20));
         add(button);
 
+        button.addActionListener(e -> {
+            new Thread(() -> {
+            for (int i = ClickController.clickController.getRound() ; i > 0; i--){
+                ClickController.clickController.setRound(i);
+                gameController.Undo();
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+            }).start();
+        });
     }
 }

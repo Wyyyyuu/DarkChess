@@ -18,11 +18,9 @@ public class LoadGame extends JComponent {
     private Chessboard chessboard;
     private GameController gameController;
     private ChessComponent chessComponent;
-    public static LoadGame loadGame;
 
 
     public LoadGame(GameController gameController, Chessboard chessboard) {
-        loadGame = this;
         this.gameController = gameController;
         this.chessboard = chessboard;
     }
