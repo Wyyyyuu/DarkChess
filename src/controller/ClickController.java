@@ -35,6 +35,7 @@ public class ClickController {
             } else if (handleSecond(squareComponent)) {
                 //repaint in swap chess method.
                 if(chessboard.swapChessComponents(first, squareComponent)) {
+                    storeSecond(squareComponent);
                     chessboard.clickController.swapPlayer();
                     first.setSelected(false);
                     first = null;
