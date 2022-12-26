@@ -3,6 +3,9 @@ package chessComponent;
 import controller.ClickController;
 import model.ChessColor;
 import model.ChessboardPoint;
+import controller.ClickController;
+import model.ChessColor;
+import model.ChessboardPoint;
 
 import java.awt.*;
 
@@ -24,6 +27,7 @@ public class HorseChessComponent extends ChessComponent{
     public int getBlood(){
         return super.getBlood();
     }
+
     @Override
     public void setBlood(int blood) {
         super.setBlood(blood);

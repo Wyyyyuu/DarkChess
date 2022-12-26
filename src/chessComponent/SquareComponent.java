@@ -3,8 +3,10 @@ package chessComponent;
 import controller.ClickController;
 import model.ChessColor;
 import model.ChessboardPoint;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import static java.awt.Font.BOLD;
@@ -18,7 +20,7 @@ import static java.awt.Font.BOLD;
 public abstract class SquareComponent extends JComponent {
 
     public static SquareComponent squareComponent;
-    private static final Color squareColor = new Color(144, 194, 189, 165);
+    private static final Color squareColor = new Color(144, 194, 189, 0);
     protected static int spacingLength;
     protected static final Font CHESS_FONT = new Font("宋体", BOLD, 36);
 
@@ -38,9 +40,9 @@ public abstract class SquareComponent extends JComponent {
      */
     private final ClickController clickController;
 
-    public int power;
+    protected int power;
 
-    public int blood;
+    private  int blood;
 
     public int getBlood() {
         return blood;
@@ -79,9 +81,6 @@ public abstract class SquareComponent extends JComponent {
         this.power = power;
     }
     public boolean isReversal() {
-        return isReversal;
-    }
-    public boolean isReversal(boolean b) {//重写isReversal方法
         return isReversal;
     }
 

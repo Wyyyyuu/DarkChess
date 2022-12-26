@@ -12,6 +12,8 @@ import java.awt.*;
  */
 
 public class GeneralChessComponent extends ChessComponent{
+
+
     public int getPower(){//语法？
         return super.getPower();
     }
