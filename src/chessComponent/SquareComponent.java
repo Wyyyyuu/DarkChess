@@ -3,10 +3,8 @@ package chessComponent;
 import controller.ClickController;
 import model.ChessColor;
 import model.ChessboardPoint;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import static java.awt.Font.BOLD;
@@ -40,9 +38,9 @@ public abstract class SquareComponent extends JComponent {
      */
     private final ClickController clickController;
 
-    protected int power;
+    public int power;
 
-    private  int blood;
+    public int blood;
 
     public int getBlood() {
         return blood;
@@ -81,6 +79,9 @@ public abstract class SquareComponent extends JComponent {
         this.power = power;
     }
     public boolean isReversal() {
+        return isReversal;
+    }
+    public boolean isReversal(boolean b) {//重写isReversal方法
         return isReversal;
     }
 

@@ -52,7 +52,7 @@ public class ClickController {
     }
 
     public void cheatingPart(SquareComponent squareComponent){//翻开2s又翻回去
-        if (!squareComponent.isReversal()) {
+        if (!squareComponent.isReversal(true)) {
             squareComponent.setReversal(true);
             System.out.printf("onClick to cheat on a chess [%d,%d]\n", squareComponent.getChessboardPoint().getX(), squareComponent.getChessboardPoint().getY());
             squareComponent.repaint();
@@ -78,7 +78,7 @@ public class ClickController {
      */
 
     private boolean handleFirst(SquareComponent squareComponent) {
-        if (!squareComponent.isReversal()) {
+        if (!squareComponent.isReversal(true)) {
             squareComponent.setReversal(true);
             System.out.printf("onClick to reverse a chess [%d,%d]\n", squareComponent.getChessboardPoint().getX(), squareComponent.getChessboardPoint().getY());
             round++;
@@ -97,15 +97,13 @@ public class ClickController {
      */
 
     public boolean handleSecond(SquareComponent squareComponent) {
-
         //没翻开或空棋子，进入if
-        if (!squareComponent.isReversal()) {
+        if (!squareComponent.isReversal(true)) {
             //没翻开且非空棋子不能走
             if (!(squareComponent instanceof EmptySlotComponent)) {
                 return false;
             }
         }
-
         return squareComponent.getChessColor() != chessboard.getCurrentColor() &&
                 first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint());
     }

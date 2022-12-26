@@ -3,10 +3,8 @@ package view;
 
 import chessComponent.*;
 import controller.GameController;
-import controller.LoadGame;
 import model.*;
 import controller.ClickController;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -123,6 +121,7 @@ public class Chessboard extends JComponent {
                     if(Math.abs(row2 - row1) + Math.abs(col2 - col1) == 1) {
                         //减去血量
                         if (currentColor== ChessColor.RED) {
+                            System.out.println(chess2.getBlood());
                             redPlayerBlood = redPlayerBlood - chess2.getBlood();
                             System.out.println("The black remain blood of " + redPlayerBlood);
                         } else {

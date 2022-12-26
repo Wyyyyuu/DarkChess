@@ -24,7 +24,6 @@ public class HorseChessComponent extends ChessComponent{
     public int getBlood(){
         return super.getBlood();
     }
-
     @Override
     public void setBlood(int blood) {
         super.setBlood(blood);

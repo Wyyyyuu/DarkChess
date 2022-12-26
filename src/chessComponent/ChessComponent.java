@@ -11,7 +11,7 @@ import java.awt.*;
  */
 public class ChessComponent extends SquareComponent {
     protected String name;// 棋子名字：例如 兵，卒，士等
-    protected int blood;
+
     public static ChessComponent chessComponent;
     public ChessComponent(){
     };
