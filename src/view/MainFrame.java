@@ -66,6 +66,7 @@ public class MainFrame extends JFrame {
             ChessGameFrame chessGameFrame = new ChessGameFrame(1080,720);
             chessGameFrame.setVisible(true);
             chessGameFrame.BackGroundFrame();
+            Chessboard.chessboard.chessBoardBackGround();
         });
     }
 

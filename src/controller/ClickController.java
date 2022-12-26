@@ -6,6 +6,9 @@ import chessComponent.EmptySlotComponent;
 import model.ChessColor;
 import view.ChessGameFrame;
 import view.Chessboard;
+import view.Music;
+
+import java.io.IOException;
 
 public class ClickController {
     private final Chessboard chessboard;
@@ -19,56 +22,32 @@ public class ClickController {
     }
 
     public void onClick(SquareComponent squareComponent) {
-        if(ChessGameFrame.CheatingMode){
-            cheatingPart(squareComponent);
-            first = null;
-        }
-        else{
-            //判断第一次点击
-            if (first == null) {
-                if (handleFirst(squareComponent)) {
-                    squareComponent.setSelected(true);
-                    first = squareComponent;
-                    first.repaint();
-                }
-            } else {//已翻开
-                if (first == squareComponent) { // 再次点击取消选取
-                    squareComponent.setSelected(false);
-                    SquareComponent recordFirst = first;
-                    first = null;
-                    recordFirst.repaint();
-                } else {
-                    //repaint in swap chess method.
-                    if(chessboard.swapChessComponents(first, squareComponent)) {
-                        chessboard.clickController.swapPlayer();
-                        first.setSelected(false);
-                        first = null;
-                    }
-                }
-
+        //判断第一次点击
+        if (first == null) {
+            if (handleFirst(squareComponent)) {
+                squareComponent.setSelected(true);
+                first = squareComponent;
+                first.repaint();
             }
-            chessboard.winInterface();
-        }
-    }
-
-    public void cheatingPart(SquareComponent squareComponent){//翻开2s又翻回去
-        if (!squareComponent.isReversal(true)) {
-            squareComponent.setReversal(true);
-            System.out.printf("onClick to cheat on a chess [%d,%d]\n", squareComponent.getChessboardPoint().getX(), squareComponent.getChessboardPoint().getY());
-            squareComponent.repaint();
-            //延时
-            Runnable task = () -> {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+        } else {//已翻开
+            if (first == squareComponent) { // 再次点击取消选取
+                squareComponent.setSelected(false);
+                SquareComponent recordFirst = first;
+                first = null;
+                recordFirst.repaint();
+            } else if (handleSecond(squareComponent)) {
+                //repaint in swap chess method.
+                if(chessboard.swapChessComponents(first, squareComponent)) {
+                    storeSecond(squareComponent);
+                    chessboard.clickController.swapPlayer();
+                    Music music = new Music("chessMusic.mp3");
+                    music.start();
+                    first.setSelected(false);
+                    first = null;
                 }
-                squareComponent.setReversal(false);
-                System.out.printf("onClick to cheat on a chess undo [%d,%d]\n", squareComponent.getChessboardPoint().getX(), squareComponent.getChessboardPoint().getY());
-                squareComponent.repaint();
-            };
-            new Thread(task).start();
+            }
         }
+        chessboard.winInterface();
     }
 
 
@@ -78,13 +57,15 @@ public class ClickController {
      */
 
     private boolean handleFirst(SquareComponent squareComponent) {
-        if (!squareComponent.isReversal(true)) {
+        if (!squareComponent.isReversal()) {
             squareComponent.setReversal(true);
             System.out.printf("onClick to reverse a chess [%d,%d]\n", squareComponent.getChessboardPoint().getX(), squareComponent.getChessboardPoint().getY());
             round++;
             GameController.gameController.storeGame(round);
             squareComponent.repaint();
             chessboard.clickController.swapPlayer();
+            Music music = new Music("chessMusic.mp3");
+            music.start();
 
             return false;
         }
@@ -96,14 +77,16 @@ public class ClickController {
      * @return first棋子是否能够移动到second棋子位置
      */
 
-    public boolean handleSecond(SquareComponent squareComponent) {
+    private boolean handleSecond(SquareComponent squareComponent) {
+
         //没翻开或空棋子，进入if
-        if (!squareComponent.isReversal(true)) {
+        if (!squareComponent.isReversal()) {
             //没翻开且非空棋子不能走
             if (!(squareComponent instanceof EmptySlotComponent)) {
                 return false;
             }
         }
+
         return squareComponent.getChessColor() != chessboard.getCurrentColor() &&
                 first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint());
     }

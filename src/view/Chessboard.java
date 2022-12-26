@@ -3,10 +3,14 @@ package view;
 
 import chessComponent.*;
 import controller.GameController;
+import controller.LoadGame;
 import model.*;
 import controller.ClickController;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -22,9 +26,9 @@ public class Chessboard extends JComponent {
     public static final int COL_SIZE = 4;
     private int WIDTH;
     private int HEIGHT;
-    public int redPlayerBlood = 60;
+    private int redPlayerBlood = 60;
 
-    public int blackPlayerBlood = 60;
+    private int blackPlayerBlood = 60;
 
     public ArrayList<Integer> redCost = new ArrayList<>();
     public ArrayList<Integer> blackCost = new ArrayList<>();
@@ -55,6 +59,7 @@ public class Chessboard extends JComponent {
         System.out.printf("chessboard [%d * %d], chess size = %d\n", width, height, CHESS_SIZE);
         chessboard = this;
         initAllChessOnBoard();
+
     }
 
     public SquareComponent[][] getChessComponents() {
@@ -65,6 +70,17 @@ public class Chessboard extends JComponent {
         return currentColor;
     }
 
+    public void chessBoardBackGround(){
+        setSize(WIDTH + 2, HEIGHT);
+        CHESS_SIZE = (HEIGHT - 6) / 8;
+        SquareComponent.setSpacingLength(CHESS_SIZE / 12);
+        setVisible(true);
+        setLayout(new BorderLayout());
+        JLabel background = new JLabel(new ImageIcon("chessboard.jpeg"));
+        add(background);
+        background.setLayout(new FlowLayout());
+        revalidate();
+    }
     public void setCurrentColor(ChessColor currentColor) {
         this.currentColor = currentColor;
     }
@@ -87,9 +103,6 @@ public class Chessboard extends JComponent {
      * @param chess2
      */
     public boolean swapChessComponents(SquareComponent chess1, SquareComponent chess2) {
-        if(!(chess1 instanceof CannonChessComponent || clickController.handleSecond(chess2))){
-            return false;
-        }
         if (!(chess2 instanceof EmptySlotComponent)) {//能级大 或者 兵吃将
             //1.炮部分
             if(chess1 instanceof CannonChessComponent){
@@ -110,6 +123,7 @@ public class Chessboard extends JComponent {
                     chess1.swapLocation(chess2);
                     squareComponents[row1][col1] = chess1;
                     squareComponents[row2][col2] = chess2;
+
                     return true;
                 }
             }
@@ -120,8 +134,7 @@ public class Chessboard extends JComponent {
                     int row2 = chess2.getChessboardPoint().getX(), col2 = chess2.getChessboardPoint().getY();
                     if(Math.abs(row2 - row1) + Math.abs(col2 - col1) == 1) {
                         //减去血量
-                        if (currentColor== ChessColor.RED) {
-                            System.out.println(chess2.getBlood());
+                        if (currentColor == ChessColor.RED) {
                             redPlayerBlood = redPlayerBlood - chess2.getBlood();
                             System.out.println("The black remain blood of " + redPlayerBlood);
                         } else {
@@ -355,6 +368,12 @@ public class Chessboard extends JComponent {
                 }
             }
         }
+    }
 
+    public int getRedPlayerBlood(){
+        return redPlayerBlood;
+    }
+    public int getBlackPlayerBlood(){
+        return blackPlayerBlood;
     }
 }

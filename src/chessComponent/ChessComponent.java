@@ -15,7 +15,7 @@ import java.awt.event.MouseListener;
  */
 public class ChessComponent extends SquareComponent {
     protected String name;// 棋子名字：例如 兵，卒，士等
-
+    protected int blood;
     public static ChessComponent chessComponent;
     public ChessComponent(){
     };
@@ -25,23 +25,25 @@ public class ChessComponent extends SquareComponent {
         chessComponent = this;
 
         //鼠标划过棋子时变色
-        addMouseListener(new MouseAdapter()
-        {
-            //鼠标进入按钮区域
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                ChessComponent.chessComponent.setBackground(Color.cyan);
-                ChessComponent.chessComponent.setOpaque(true);
-            }
-            //鼠标移除按钮区域
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                ChessComponent.chessComponent.setBackground(Color.ORANGE);
-                ChessComponent.chessComponent.setOpaque(true);
-            }
-        });
+//        addMouseListener(new MouseAdapter()
+//        {
+//            //鼠标进入按钮区域
+//            @Override
+//            public void mouseEntered(MouseEvent e) {
+//                super.mouseEntered(e);
+//                ChessComponent.chessComponent.setBackground(Color.cyan);
+//                ChessComponent.chessComponent.setOpaque(true);
+//                chessComponent.repaint(50);
+//            }
+//            //鼠标移除按钮区域
+//            @Override
+//            public void mouseExited(MouseEvent e) {
+//                super.mouseExited(e);
+//                ChessComponent.chessComponent.setBackground(Color.ORANGE);
+//                ChessComponent.chessComponent.setOpaque(true);
+//                chessComponent.repaint(50);
+//            }
+//        });
     }
 
     public String getName(){
