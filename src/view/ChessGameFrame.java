@@ -27,6 +27,9 @@ public class ChessGameFrame extends JFrame {
     private static JLabel redBlood;
     private static JLabel blackBlood;
 
+    public static boolean CheatingMode = false;
+
+
     //添加背景图片
     public void BackGroundFrame() {
         setSize(1080, 720);
@@ -166,15 +169,11 @@ public class ChessGameFrame extends JFrame {
         button.setFont(new Font("仿宋", Font.BOLD, 20));
         add(button);
         button.addActionListener(e -> {
-                    System.out.println("Click load");
-                    String n = JOptionPane.showInputDialog(this, "How many face down:");
-                    int faceDown = Integer.parseInt(n);
-                    chessboard.cheatingPart(faceDown);
-
-                    repaint();
+            System.out.println("Click load");
+            //三十秒内任意翻开棋子，且棋子翻开2秒自动复原
+            CheatingMode = !CheatingMode;
                 }
         );
-
     }
 
     //人机对战

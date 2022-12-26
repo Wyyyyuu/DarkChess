@@ -89,6 +89,9 @@ public class Chessboard extends JComponent {
      * @param chess2
      */
     public boolean swapChessComponents(SquareComponent chess1, SquareComponent chess2) {
+        if(!(chess1 instanceof CannonChessComponent || clickController.handleSecond(chess2))){
+            return false;
+        }
         if (!(chess2 instanceof EmptySlotComponent)) {//能级大 或者 兵吃将
             //1.炮部分
             if(chess1 instanceof CannonChessComponent){
@@ -109,7 +112,6 @@ public class Chessboard extends JComponent {
                     chess1.swapLocation(chess2);
                     squareComponents[row1][col1] = chess1;
                     squareComponents[row2][col2] = chess2;
-
                     return true;
                 }
             }
