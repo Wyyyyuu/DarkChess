@@ -163,10 +163,6 @@ public abstract class SquareComponent extends JComponent {
         //todo: complete this method
     }
 
-    //鼠标划过棋子时，棋子变色
-    public void EnterMouseEvent(){
-
-    }
 
     @Override
     protected void paintComponent(Graphics g) {
