@@ -22,33 +22,61 @@ public class ClickController {
     }
 
     public void onClick(SquareComponent squareComponent) {
-        //判断第一次点击
-        if (first == null) {
-            if (handleFirst(squareComponent)) {
-                squareComponent.setSelected(true);
-                first = squareComponent;
-                first.repaint();
-            }
-        } else {//已翻开
-            if (first == squareComponent) { // 再次点击取消选取
-                squareComponent.setSelected(false);
-                SquareComponent recordFirst = first;
-                first = null;
-                recordFirst.repaint();
-            } else if (handleSecond(squareComponent)) {
-                //repaint in swap chess method.
-                if(chessboard.swapChessComponents(first, squareComponent)) {
-                    storeSecond(squareComponent);
-                    chessboard.clickController.swapPlayer();
-                    Music music = new Music("chessMusic.mp3");
-                    music.start();
-                    first.setSelected(false);
-                    first = null;
-                }
-            }
+        if(ChessGameFrame.CheatingMode){
+            cheatingPart(squareComponent);
+            first = null;
         }
-        chessboard.winInterface();
+        else{
+            //判断第一次点击
+            if (first == null) {
+                if (handleFirst(squareComponent)) {
+                    squareComponent.setSelected(true);
+                    first = squareComponent;
+                    first.repaint();
+                }
+            } else {//已翻开
+                if (first == squareComponent) { // 再次点击取消选取
+                    squareComponent.setSelected(false);
+                    SquareComponent recordFirst = first;
+                    first = null;
+                    recordFirst.repaint();
+                } else {
+                    //repaint in swap chess method.
+                    if(chessboard.swapChessComponents(first, squareComponent)) {
+                        chessboard.clickController.swapPlayer();
+                        storeSecond(squareComponent);
+                        Music music = new Music("chessMusic.mp3");
+                        music.start();
+                        first.setSelected(false);
+                        first = null;
+                    }
+                }
+
+            }
+            chessboard.winInterface();
+        }
     }
+
+    public void cheatingPart(SquareComponent squareComponent){//翻开2s又翻回去
+        if (!squareComponent.isReversal()) {
+            squareComponent.setReversal(true);
+            System.out.printf("onClick to cheat on a chess [%d,%d]\n", squareComponent.getChessboardPoint().getX(), squareComponent.getChessboardPoint().getY());
+            squareComponent.repaint();
+            //延时
+            Runnable task = () -> {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                squareComponent.setReversal(false);
+                System.out.printf("onClick to cheat on a chess undo [%d,%d]\n", squareComponent.getChessboardPoint().getX(), squareComponent.getChessboardPoint().getY());
+                squareComponent.repaint();
+            };
+            new Thread(task).start();
+        }
+    }
+
 
 
     /**
@@ -77,8 +105,7 @@ public class ClickController {
      * @return first棋子是否能够移动到second棋子位置
      */
 
-    private boolean handleSecond(SquareComponent squareComponent) {
-
+    public boolean handleSecond(SquareComponent squareComponent) {
         //没翻开或空棋子，进入if
         if (!squareComponent.isReversal()) {
             //没翻开且非空棋子不能走

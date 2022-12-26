@@ -26,6 +26,7 @@ public class ChessGameFrame extends JFrame {
     private static JLabel statusLabel;
     private static JLabel redBlood;
     private static JLabel blackBlood;
+    public static boolean CheatingMode = false;
     //添加背景图片
     public void BackGroundFrame() {
         setSize(1080, 720);
@@ -94,7 +95,8 @@ public class ChessGameFrame extends JFrame {
         add(statusLabel);
 
         //显示剩余血量
-        redBlood = new JLabel("红方血量：" + chessboard.getRedPlayerBlood());
+        redBlood = new JLabel("红方血量：" + Chessboard.chessboard.getRedPlayerBlood());
+        redBlood.setText("红方血量：" + Chessboard.chessboard.getRedPlayerBlood());
         redBlood.setLocation(WIDTH / 10 + 60,HEIGHT / 10 - 50);
         redBlood.setSize(120,40);
         redBlood.setOpaque(true);
@@ -102,7 +104,8 @@ public class ChessGameFrame extends JFrame {
         redBlood.setFont(new Font("黑体",Font.BOLD,15));
         add(redBlood);
 
-        blackBlood = new JLabel("黑方血量：" + chessboard.getBlackPlayerBlood());
+        blackBlood = new JLabel("黑方血量：" + Chessboard.chessboard.getBlackPlayerBlood());
+        redBlood.setText("黑方血量：" + Chessboard.chessboard.getBlackPlayerBlood());
         blackBlood.setLocation(WIDTH / 10 + 230,HEIGHT / 10 - 50);
         blackBlood.setSize(120,40);
         blackBlood.setOpaque(true);
@@ -166,11 +169,8 @@ public class ChessGameFrame extends JFrame {
         add(button);
         button.addActionListener(e -> {
                     System.out.println("Click load");
-                    String n = JOptionPane.showInputDialog(this, "How many face down:");
-                    int faceDown = Integer.parseInt(n);
-                    chessboard.cheatingPart(faceDown);
-
-                    repaint();
+              //三十秒内任意翻开棋子，且棋子翻开2秒自动复原
+              CheatingMode = !CheatingMode;
                 }
         );
 

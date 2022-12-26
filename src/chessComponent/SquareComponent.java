@@ -40,9 +40,9 @@ public abstract class SquareComponent extends JComponent {
      */
     private final ClickController clickController;
 
-    protected int power;
+    public int power;
 
-    private  int blood;
+    public int blood;
 
     public int getBlood() {
         return blood;
