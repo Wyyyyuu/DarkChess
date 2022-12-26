@@ -3,9 +3,6 @@ package chessComponent;
 import controller.ClickController;
 import model.ChessColor;
 import model.ChessboardPoint;
-import controller.ClickController;
-import model.ChessColor;
-import model.ChessboardPoint;
 
 import java.awt.*;
 
