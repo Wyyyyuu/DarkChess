@@ -84,6 +84,10 @@ public abstract class SquareComponent extends JComponent {
         return isReversal;
     }
 
+    public boolean isReversal(boolean b) {
+        return isReversal;
+    }
+
     public void setReversal(boolean reversal) {
         isReversal = reversal;
     }
@@ -154,9 +158,7 @@ public abstract class SquareComponent extends JComponent {
      * 这个方法主要是检查移动的合法性，如果合法就返回true，反之是false。
      */
     //todo: Override this method for Cannon
-    public boolean takeOn(SquareComponent[][] chessboard, ChessboardPoint destination,ChessboardPoint start) {//感觉合适的方法体
-        return canMoveTo(chessboard,destination);
-    }
+
     public boolean canMoveTo(SquareComponent[][] chessboard, ChessboardPoint destination) {//感觉不合适但要用的方法体
         SquareComponent ZeroChess = chessboard[destination.getX()][destination.getY()];
         return ZeroChess.isReversal|| ZeroChess instanceof EmptySlotComponent;//被翻开或者没有棋子(instanceof:值为

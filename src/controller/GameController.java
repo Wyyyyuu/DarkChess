@@ -44,6 +44,7 @@ public class GameController {
             ChessGameFrame mainFrame = new ChessGameFrame(1080, 720);
             mainFrame.setVisible(true);
             mainFrame.BackGroundFrame();
+            Chessboard.chessboard.chessBoardBackGround();
             chessboard.initAllChessOnBoard();
         });
 

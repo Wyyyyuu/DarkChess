@@ -135,10 +135,12 @@ public class Chessboard extends JComponent {
                         if (currentColor== ChessColor.RED) {
                             this.redPlayerBlood = redPlayerBlood - chess2.getBlood();
                             System.out.println("The black remain blood of " + redPlayerBlood);
+                            ChessGameFrame.getRedBlood().setText("红方血量："+ this.redPlayerBlood);
                         } else {
                             redCost.add(chess2.getBlood());
                             this.blackPlayerBlood = blackPlayerBlood-chess2.getBlood();
                             System.out.println("The red remain blood of " + blackPlayerBlood);
+                            ChessGameFrame.getBlackBlood().setText("黑方血量："+ this.blackPlayerBlood);
                         }
                         remove(chess2);
                         add(chess2 = new EmptySlotComponent(chess2.getChessboardPoint(), chess2.getLocation(), clickController, CHESS_SIZE));
@@ -156,12 +158,22 @@ public class Chessboard extends JComponent {
             int row1 = chess1.getChessboardPoint().getX(), col1 = chess1.getChessboardPoint().getY();
             int row2 = chess2.getChessboardPoint().getX(), col2 = chess2.getChessboardPoint().getY();
             if(Math.abs(row2 - row1) + Math.abs(col2 - col1) == 1){
+                squareComponents[row2][col2] = chess1;
+                squareComponents[row1][col1] = chess2;
+                return true;
+            }
+        }
+        else {remove(chess2);
+            add(chess2 = new EmptySlotComponent(chess2.getChessboardPoint(), chess2.getLocation(), clickController, CHESS_SIZE));
+            chess1.swapLocation(chess2);
+            int row1 = chess1.getChessboardPoint().getX(), col1 = chess1.getChessboardPoint().getY();
+            int row2 = chess2.getChessboardPoint().getX(), col2 = chess2.getChessboardPoint().getY();
+            if(Math.abs(row2 - row1) + Math.abs(col2 - col1) == 1){
                 squareComponents[row1][col1] = chess1;
                 squareComponents[row2][col2] = chess2;
                 return true;
             }
-            else {return  false;}
-        }
+           }
         //只重新绘制chess1 chess2，其他不变
         chess1.repaint();
         chess2.repaint();

@@ -96,7 +96,6 @@ public class ChessGameFrame extends JFrame {
 
         //显示剩余血量
         redBlood = new JLabel("红方血量：" + Chessboard.chessboard.getRedPlayerBlood());
-        redBlood.setText("红方血量：" + Chessboard.chessboard.getRedPlayerBlood());
         redBlood.setLocation(WIDTH / 10 + 60,HEIGHT / 10 - 50);
         redBlood.setSize(120,40);
         redBlood.setOpaque(true);
@@ -105,7 +104,6 @@ public class ChessGameFrame extends JFrame {
         add(redBlood);
 
         blackBlood = new JLabel("黑方血量：" + Chessboard.chessboard.getBlackPlayerBlood());
-        redBlood.setText("黑方血量：" + Chessboard.chessboard.getBlackPlayerBlood());
         blackBlood.setLocation(WIDTH / 10 + 230,HEIGHT / 10 - 50);
         blackBlood.setSize(120,40);
         blackBlood.setOpaque(true);
