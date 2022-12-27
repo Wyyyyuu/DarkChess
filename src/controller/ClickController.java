@@ -113,6 +113,8 @@ public class ClickController {
                 return false;
             }
         }
+        Music music = new Music("chessMusic.mp3");
+        music.start();
 
         return squareComponent.getChessColor() != chessboard.getCurrentColor() &&
                 first.canMoveTo(chessboard.getChessComponents(), squareComponent.getChessboardPoint());

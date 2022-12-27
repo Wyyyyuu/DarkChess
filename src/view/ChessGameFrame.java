@@ -192,7 +192,10 @@ public class ChessGameFrame extends JFrame {
         add(button);
 
         button.addActionListener(e -> {
-            gameController.newGame();
+            this.setVisible(false);
+            ChessGameFrame chessGameFrame = new ChessGameFrame(1080,720);
+            chessGameFrame.setVisible(true);
+            chessGameFrame.BackGroundFrame();
         });
     }
 

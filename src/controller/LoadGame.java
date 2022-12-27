@@ -37,7 +37,7 @@ public class LoadGame extends JComponent {
 
         //读取文档数据
         try {
-            BufferedReader br = new BufferedReader(new FileReader(path));
+             BufferedReader br = new BufferedReader(new FileReader(path));
             String chess = br.readLine();
 
             //文件格式是否为txt
@@ -65,6 +65,10 @@ public class LoadGame extends JComponent {
             }
 
             currentPlayer = chess;//记录当前行棋方
+            chessboard.setRedPlayerBlood(Integer.parseInt(br.readLine()));
+            chessboard.setBlackPlayerBlood(Integer.parseInt(br.readLine()));
+            ChessGameFrame.getBlackBlood().setText("黑方血量："+ chessboard.getBlackPlayerBlood());
+            ChessGameFrame.getRedBlood().setText("红方血量："+ chessboard.getRedPlayerBlood());
             br.close();
 
             /**
@@ -88,7 +92,6 @@ public class LoadGame extends JComponent {
                         squareComponent.setVisible(true);
                         squareComponent.setReversal(true);
                         chessboard.putChessOnBoard(squareComponent);
-
                     } else if (now[i][j].equals("2RT")) {
                         squareComponent = new AdvisorChessComponent(new ChessboardPoint(i, j), calculatePoint(i, j), ChessColor.RED, SquareComponent.squareComponent.getClickController(), CHESS_SIZE);
                         squareComponent.repaint();

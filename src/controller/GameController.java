@@ -30,6 +30,7 @@ public class GameController {
     public static GameController gameController;
     private String saveName;//存档名
     SquareComponent[][] ArrayChessComponent = new SquareComponent[ROW_SIZE][COL_SIZE];
+
     public GameController(Chessboard chessboard) {
         this.chessboard = chessboard;
         this.ArrayChessComponent = chessboard.getChessComponents();
@@ -37,14 +38,12 @@ public class GameController {
     }
 
 
-
-    public void newGame(){
+    public void newGame() {
         SwingUtilities.invokeLater(() -> {
             ChessGameFrame.mainF.dispose();
             ChessGameFrame mainFrame = new ChessGameFrame(1080, 720);
             mainFrame.setVisible(true);
             mainFrame.BackGroundFrame();
-            Chessboard.chessboard.chessBoardBackGround();
             chessboard.initAllChessOnBoard();
         });
 
@@ -60,124 +59,124 @@ public class GameController {
          * 1RT代表红方将且翻转，1BF代表黑方将且不翻转，依此类推
          */
 
-        BufferedWriter bfw = new BufferedWriter(new FileWriter(String.format("save/%s.txt",saveName)));
+        BufferedWriter bfw = new BufferedWriter(new FileWriter(String.format("save/%s.txt", saveName)));
 
-            for (int i = 0; i < ROW_SIZE; i++) {
-                for (int j = 0; j < COL_SIZE; j++) {
-                    //空棋子
-                    if (ArrayChessComponent[i][j] instanceof EmptySlotComponent){
-                        bfw.write("0 ");
-                        continue;
+        for (int i = 0; i < ROW_SIZE; i++) {
+            for (int j = 0; j < COL_SIZE; j++) {
+                //空棋子
+                if (ArrayChessComponent[i][j] instanceof EmptySlotComponent) {
+                    bfw.write("0 ");
+                    continue;
+                }
+
+                if (ArrayChessComponent[i][j].getName().equals("帥")) {
+                    if (ArrayChessComponent[i][j].isReversal()) {
+                        bfw.write("1RT ");
+                    } else {
+                        bfw.write("1RF ");
                     }
-
-                    if (ArrayChessComponent[i][j].getName().equals("帥")) {
-                        if (ArrayChessComponent[i][j].isReversal()) {
-                            bfw.write("1RT ");
-                        } else {
-                            bfw.write("1RF ");
-                        }
-                    } else if (ArrayChessComponent[i][j].getName().equals("将")) {
-                        if (ArrayChessComponent[i][j].isReversal()) {
-                            bfw.write("1BT ");
-                        } else {
-                            bfw.write("1BF ");
-                        }
-                    }
-
-                    if (ArrayChessComponent[i][j].getName().equals("仕")) {
-                        if (ArrayChessComponent[i][j].isReversal()) {
-                            bfw.write("2RT ");
-                        } else {
-                            bfw.write("2RF ");
-                        }
-                    } else if (ArrayChessComponent[i][j].getName().equals("士")) {
-                        if (ArrayChessComponent[i][j].isReversal()) {
-                            bfw.write("2BT ");
-                        } else {
-                            bfw.write("2BF ");
-                        }
-                    }
-
-                    if (ArrayChessComponent[i][j].getName().equals("相")) {
-                        if (ArrayChessComponent[i][j].isReversal()) {
-                            bfw.write("3RT ");
-                        } else {
-                            bfw.write("3RF ");
-                        }
-                    } else if (ArrayChessComponent[i][j].getName().equals("象")) {
-                        if (ArrayChessComponent[i][j].isReversal()) {
-                            bfw.write("3BT ");
-                        } else {
-                            bfw.write("3BF ");
-                        }
-                    }
-
-                    if (ArrayChessComponent[i][j].getName().equals("俥")) {
-                        if (ArrayChessComponent[i][j].isReversal()) {
-                            bfw.write("4RT ");
-                        } else {
-                            bfw.write("4RF ");
-                        }
-                    } else if (ArrayChessComponent[i][j].getName().equals("車")) {
-                        if (ArrayChessComponent[i][j].isReversal()) {
-                            bfw.write("4BT ");
-                        } else {
-                            bfw.write("4BF ");
-                        }
-                    }
-
-                    if (ArrayChessComponent[i][j].getName().equals("傌")) {
-                        if (ArrayChessComponent[i][j].isReversal()) {
-                            bfw.write("5RT ");
-                        } else {
-                            bfw.write("5RF ");
-                        }
-                    } else if (ArrayChessComponent[i][j].getName().equals("馬")) {
-                        if (ArrayChessComponent[i][j].isReversal()) {
-                            bfw.write("5BT ");
-                        } else {
-                            bfw.write("5BF ");
-                        }
-                    }
-
-                    if (ArrayChessComponent[i][j].getName().equals("炮")) {
-                        if (ArrayChessComponent[i][j].isReversal()) {
-                            bfw.write("6RT ");
-                        } else {
-                            bfw.write("6RF ");
-                        }
-                    } else if (ArrayChessComponent[i][j].getName().equals("砲")) {
-                        if (ArrayChessComponent[i][j].isReversal()) {
-                            bfw.write("6BT ");
-                        } else {
-                            bfw.write("6BF ");
-                        }
-                    }
-
-                    if (ArrayChessComponent[i][j].getName().equals("兵")) {
-                        if (ArrayChessComponent[i][j].isReversal()) {
-                            bfw.write("7RT ");
-                        } else {
-                            bfw.write("7RF ");
-                        }
-                    } else if (ArrayChessComponent[i][j].getName().equals("卒")) {
-                        if (ArrayChessComponent[i][j].isReversal()) {
-                            bfw.write("7BT ");
-                        } else {
-                            bfw.write("7BF ");
-                        }
+                } else if (ArrayChessComponent[i][j].getName().equals("将")) {
+                    if (ArrayChessComponent[i][j].isReversal()) {
+                        bfw.write("1BT ");
+                    } else {
+                        bfw.write("1BF ");
                     }
                 }
-                bfw.newLine();//换行
-            }
 
-            if (Chessboard.chessboard.getCurrentColor() == ChessColor.RED){
-                bfw.write("Red");
-            }else {
-                bfw.write("Black");
+                if (ArrayChessComponent[i][j].getName().equals("仕")) {
+                    if (ArrayChessComponent[i][j].isReversal()) {
+                        bfw.write("2RT ");
+                    } else {
+                        bfw.write("2RF ");
+                    }
+                } else if (ArrayChessComponent[i][j].getName().equals("士")) {
+                    if (ArrayChessComponent[i][j].isReversal()) {
+                        bfw.write("2BT ");
+                    } else {
+                        bfw.write("2BF ");
+                    }
+                }
+
+                if (ArrayChessComponent[i][j].getName().equals("相")) {
+                    if (ArrayChessComponent[i][j].isReversal()) {
+                        bfw.write("3RT ");
+                    } else {
+                        bfw.write("3RF ");
+                    }
+                } else if (ArrayChessComponent[i][j].getName().equals("象")) {
+                    if (ArrayChessComponent[i][j].isReversal()) {
+                        bfw.write("3BT ");
+                    } else {
+                        bfw.write("3BF ");
+                    }
+                }
+
+                if (ArrayChessComponent[i][j].getName().equals("俥")) {
+                    if (ArrayChessComponent[i][j].isReversal()) {
+                        bfw.write("4RT ");
+                    } else {
+                        bfw.write("4RF ");
+                    }
+                } else if (ArrayChessComponent[i][j].getName().equals("車")) {
+                    if (ArrayChessComponent[i][j].isReversal()) {
+                        bfw.write("4BT ");
+                    } else {
+                        bfw.write("4BF ");
+                    }
+                }
+
+                if (ArrayChessComponent[i][j].getName().equals("傌")) {
+                    if (ArrayChessComponent[i][j].isReversal()) {
+                        bfw.write("5RT ");
+                    } else {
+                        bfw.write("5RF ");
+                    }
+                } else if (ArrayChessComponent[i][j].getName().equals("馬")) {
+                    if (ArrayChessComponent[i][j].isReversal()) {
+                        bfw.write("5BT ");
+                    } else {
+                        bfw.write("5BF ");
+                    }
+                }
+
+                if (ArrayChessComponent[i][j].getName().equals("炮")) {
+                    if (ArrayChessComponent[i][j].isReversal()) {
+                        bfw.write("6RT ");
+                    } else {
+                        bfw.write("6RF ");
+                    }
+                } else if (ArrayChessComponent[i][j].getName().equals("砲")) {
+                    if (ArrayChessComponent[i][j].isReversal()) {
+                        bfw.write("6BT ");
+                    } else {
+                        bfw.write("6BF ");
+                    }
+                }
+
+                if (ArrayChessComponent[i][j].getName().equals("兵")) {
+                    if (ArrayChessComponent[i][j].isReversal()) {
+                        bfw.write("7RT ");
+                    } else {
+                        bfw.write("7RF ");
+                    }
+                } else if (ArrayChessComponent[i][j].getName().equals("卒")) {
+                    if (ArrayChessComponent[i][j].isReversal()) {
+                        bfw.write("7BT ");
+                    } else {
+                        bfw.write("7BF ");
+                    }
+                }
             }
-            bfw.flush();
-            bfw.close();
+            bfw.newLine();//换行
+        }
+
+        if (Chessboard.chessboard.getCurrentColor() == ChessColor.RED) {
+            bfw.write("Red");
+        } else {
+            bfw.write("Black");
+        }
+        bfw.flush();
+        bfw.close();
     }
 
 
@@ -305,30 +304,34 @@ public class GameController {
             } else {
                 bfw.write("Black");
             }
+            bfw.newLine();
+            bfw.write(String.valueOf(chessboard.getRedPlayerBlood()));
+            bfw.newLine();
+            bfw.write(String.valueOf(chessboard.getBlackPlayerBlood()));
             bfw.flush();
             bfw.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void Undo(){
-        if (ClickController.clickController.getRound() >= 1){
+    public void Undo() {
+        if (ClickController.clickController.getRound() >= 1) {
             ClickController.clickController.setRound(ClickController.clickController.getRound() - 1);
-            LoadGame loadGame = new LoadGame(GameController.gameController,Chessboard.chessboard);
+            LoadGame loadGame = new LoadGame(GameController.gameController, Chessboard.chessboard);
             loadGame.loadGameFromFile(String.format("storeFile\\chessStoreRound" + ClickController.clickController.getRound() + ".txt"));
-        }else {
-            JOptionPane.showMessageDialog(ChessGameFrame.mainF,"不能再撤回了！");
+        } else {
+            JOptionPane.showMessageDialog(ChessGameFrame.mainF, "不能再撤回了！");
         }
 
     }
 
 
-
-    public void setSaveName(String s){
+    public void setSaveName(String s) {
         this.saveName = s;
     }
-    public String getSaveName(){
+
+    public String getSaveName() {
         return saveName;
     }
 

@@ -20,7 +20,7 @@ import static java.awt.Font.BOLD;
 public abstract class SquareComponent extends JComponent {
 
     public static SquareComponent squareComponent;
-    private static final Color squareColor = new Color(144, 194, 189, 0);
+    private static final Color squareColor = new Color(144, 194, 189, 165);
     protected static int spacingLength;
     protected static final Font CHESS_FONT = new Font("宋体", BOLD, 36);
 
